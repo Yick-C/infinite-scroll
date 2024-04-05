@@ -43,11 +43,22 @@ const apiUrl = `https://api.unsplash.com/photos/?client_id=${apiKey}&count=${cou
 async function getPhotos() {
     try {
         const response = await fetch(apiUrl);
-        const photosArray = await response.json();
+        photosArray = await response.json();
         displayPhotos();
     } catch (error) {
         console.log(error);
     }
 }
 
+// Check to see if user is scrolling towards the bottom of the page
+window.addEventListener('scroll', () => {
+    // innerHeight = browser window height, 
+    // scrollY = how high we are from the top of the page
+    // offsetHeight = everything in the body, including what is not in view
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000) {
+        getPhotos();
+    }
+});
+
+// On Load
 getPhotos();
